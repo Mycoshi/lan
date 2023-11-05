@@ -1,10 +1,16 @@
 import React from 'react'
 import styles from './Homepage.module.css'
 
-const Homepage = () => {
+import Card from '../card/Card.js'
+
+const Homepage = (props) => {
+
+  const data = props.fileData
+
+
   return (
     <div className={styles.HomepageContainer}>
-    <p>ideally a cardspread goes here of most recently watched but since we are a bit away from memory handling we will prolly just implement the a-z list here for now</p>
+      <Card Title={data} />
     </div>
   )
 }

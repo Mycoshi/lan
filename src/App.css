@@ -11,7 +11,8 @@
  grid-template-columns: 1fr 1fr;
  align-items: center;
  justify-content: space-between;
- margin: 3%;
+ margin: 5%;
+ width: 95%;
 }
 .navlogo {
   margin-right: auto;
@@ -23,6 +24,18 @@
    border-radius: 25px;
    flex-grow: 1;
 }
+.ui-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content:start;
+  margin:10px;
+}
+.upload {
+  border: 1px solid white;
+  padding: 10px;
+  border-radius: 15px;
+}
+
 .App-header {
   background-color: #0c0d0f;
   min-height: 100vh;
@@ -35,4 +48,7 @@
 
 .App-link {
   color: #61dafb;
+}
+.upload-container>input {
+  display: none;
 }

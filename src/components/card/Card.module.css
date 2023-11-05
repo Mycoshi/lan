@@ -1,0 +1,28 @@
+.card-collection {
+    display: flex;
+  }
+  .cardBx {
+    background-color: #1d0841;
+    filter: opacity(0.5);
+    filter: brightness(1.2);
+    margin: 15px;
+    padding: 2%;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    width:20%;
+  }
+  .cardBx:hover{
+    transform: scale(1.5);
+  }
+  .cardInfo {
+    display: flex;
+    justify-content: space-between;
+  }
+  .cardTitle {
+    font-size: small;
+  }
+  .cardImg {
+    padding: 10%;
+    object-fit: cover;
+  }
