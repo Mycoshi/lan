@@ -7,8 +7,18 @@ import logo from './assets/lanlogo.png';
 import { FaUpload } from 'react-icons/fa'
 
 import Homepage from './components/homepage/Homepage.js'
+import Showpage from './components/showpage/ShowPage.js'
 
 function App() {
+
+
+//Page Render Method smart people would use context, we're not smart.
+const [isCurrentPage, setIsCurrentPage] = useState(1)
+const pageChangeHandler = (newState) => {
+  setIsCurrentPage(newState);
+  console.log(isCurrentPage);
+}
+
 
 //UPLOAD METHOD CURRENTLY ONLY MAPS TITLE
 const [fileData, setFileData] = useState([]) 
@@ -61,7 +71,8 @@ const handleUpload = (event) => {
               </div>
             </nav>
 
-          <Homepage fileData={fileData} />
+          {isCurrentPage === 1 && <Homepage fileData={fileData} current={pageChangeHandler} />}
+          {isCurrentPage === 2 && <Showpage current={pageChangeHandler} />}
 
       </header>
     </div>
