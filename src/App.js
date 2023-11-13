@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 //import handleupload from './logic/upload'
 
@@ -18,10 +18,11 @@ const pageChangeHandler = (newState) => {
   setIsCurrentPage(newState);
   console.log(isCurrentPage);
 }
-
-
 //UPLOAD METHOD CURRENTLY ONLY MAPS TITLE
-const [fileData, setFileData] = useState([]) 
+const [fileTitle, setFileTitle] = useState([])
+const [fileImage, setFileImage] = useState(null)
+const [filePath, setFilePath] = useState('')
+
 const handleUpload = (event) => {
   const files = event.target.files;
   const fileData = [];
@@ -37,9 +38,17 @@ const handleUpload = (event) => {
           fileData.push({ fileTitle, filePath });
 
           if (fileData.length === files.length) {
-              setFileData(fileTitle)
+
+              setFileTitle(fileTitle)
+              setFilePath(filePath)
               console.log(fileData);
+
+              const jpegFiles = fileData.filter((file) => file.filePath.includes('image/jpeg'));
+              
+              if (jpegFiles.length > 0) {
+                setFileImage(jpegFiles[0].filePath)
           }
+        }
   }
   reader.readAsDataURL(file);
 }
@@ -50,7 +59,7 @@ const handleUpload = (event) => {
       <header className="App-header">
 
             <nav className='Nav'>
-                <img className='navlogo' src={logo}/>
+                <img className='navlogo' src={logo} onClick={() => pageChangeHandler(1)}/>
               <div className='ui-container'>
 
                 <div className='upload-container'>
@@ -66,14 +75,20 @@ const handleUpload = (event) => {
                     onChange={handleUpload}
                   />
                 </div>
-
+ 
                 <input className='Search' type='search' />
               </div>
             </nav>
 
-          {isCurrentPage === 1 && <Homepage fileData={fileData} current={pageChangeHandler} />}
-          {isCurrentPage === 2 && <Showpage current={pageChangeHandler} />}
-
+          {isCurrentPage === 1 && <Homepage
+           fileTitle={fileTitle}
+           current={pageChangeHandler}
+           img={fileImage}
+            />}
+          {isCurrentPage === 2 && <Showpage
+           current={pageChangeHandler}
+           filePath={filePath}
+            />}
       </header>
     </div>
   );

@@ -2,7 +2,6 @@ import React, { useState} from 'react'
 import styles from './Card.module.css'
 import logo from '../../assets/lanlogo.png'
 
-
 const Card = (props) => {
   const current = props.current
   const handleClick = () => {
@@ -14,7 +13,7 @@ const Card = (props) => {
     <div className={styles.cardTitle}>{props.Title}</div>
       <div className={styles.cardInfo}>
       </div>
-      <img className={styles.cardImg} alt='SeriesIMG' src={logo} />
+      <img className={styles.cardImg} alt='SeriesIMG' src={props.Img} />
   </div>  )
 }
 

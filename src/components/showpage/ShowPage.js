@@ -2,27 +2,16 @@ import React from 'react'
 import styles from './Showpage.module.css'
 
 
-const ShowPage = () => {
+const ShowPage = (props) => {
+
+  const filepath = props.filePath
+
+
+
   return (
     <div className={styles.showPageContainer}>
       <div className='showgrid'>
-        <ul>
-          <li>
-            item
-          </li>
-          <li>
-            item
-          </li>
-          <li>
-            item
-          </li>
-          <li>
-            item
-          </li>
-          <li>
-            item
-          </li>
-        </ul>
+        <video src={filepath} controls></video>
       </div>
     </div>
   )

@@ -5,11 +5,12 @@ import Card from '../card/Card.js'
 
 const Homepage = (props) => {
 
-  const data = props.fileData
+  const title = props.fileTitle
   const current = props.current
+  const img = props.img
   return (
     <div className={styles.HomepageContainer}>      
-      <Card Title={data} current={current}  />
+      <Card Title={title} current={current} Img={img}  />
     </div>
   )
 }
