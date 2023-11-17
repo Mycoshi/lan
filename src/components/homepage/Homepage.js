@@ -9,7 +9,8 @@ const Homepage = (props) => {
   const current = props.current
   const img = props.img
   return (
-    <div className={styles.HomepageContainer}>      
+    <div className={styles.HomepageContainer}>
+      {}      
       <Card Title={title} current={current} Img={img}  />
     </div>
   )

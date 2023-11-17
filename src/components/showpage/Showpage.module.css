@@ -1,5 +1,17 @@
-.ShowpageContainer {
-    width: 95%;
+.ShowPageContainer {
+    width: 100%;
     border:1px solid white;
-    margin: 5%;
+}
+.ShowGrid {
+    list-style-type: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* Adjust the minimum width as needed */
+    gap: 16px; /* Adjust the gap between items as needed */
+}
+.ShowItem{
+    border: 1px solid white;
+    padding: 3px;
+}
+.cursor {
+    cursor:pointer;
 }
