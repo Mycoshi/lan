@@ -9,6 +9,7 @@ import { FaUpload } from 'react-icons/fa'
 import Homepage from './components/homepage/Homepage.js'
 import Showpage from './components/showpage/ShowPage.js'
 import Playerpage from './components/playerpage/PlayerPage.js'
+import SeasonPage from './components/seasonpage/SeasonPage.js'
 
 function App() {
 
@@ -17,70 +18,79 @@ function App() {
 const [isCurrentPage, setIsCurrentPage] = useState(1)
 const [isFilePath, setIsFilePath] = useState(null)
 const [fileArray, setFileArray] = useState([])
+const [currentFileArray, setCurrentFileArray] = useState(null)
 const [movieArray, setMovieArray] = useState([])
 const [fileIndex, setFileIndex] = useState(0)
 
 
 const pageChangeHandler = (newState) => {
   setIsCurrentPage(newState);
-  console.log(isCurrentPage);
 }
-const videoChangeHandler = (newState) => {
-  setIsFilePath(newState);
-  console.log(isFilePath);
-  setMovieArray(fileArray.filter((file) => file.filePath.includes('video/mp4')));
+const videoListChangeHandler = (newState) => {
+  setCurrentFileArray(newState)
+  console.log(currentFileArray)
+  const selectedArray = newState
+  .filter( file => file.fileData && file.fileData.includes('video/mp4'))
+  .sort((a, b) => {
+    const extractNumber = (fileName) => {
+      const match = fileName.match(/\d+/); // Extract numeric part using regex
+      return match ? parseInt(match[0], 10) : 0; // Parse the numeric part as an integer
+    };
+
+    const numericPartA = extractNumber(a.fileName);
+    const numericPartB = extractNumber(b.fileName);
+
+    return numericPartA - numericPartB;
+  })
+  
+  
+  setMovieArray(selectedArray)
+}
+const currentFileChangeHandler = (newState) => {
+  setIsFilePath(newState)
 }
 const fileIndexHandler = (newState) => {
   setFileIndex(newState)
-  console.log(fileIndex)
 }
 
 const [folderTitle, setFolderTitle] = useState([])
 const [fileImage, setFileImage] = useState(null)
-const [filePath, setFilePath] = useState('')
 
 const  handleUpload = (event) => {
   const files = event.target.files;
-  const fileData = [];
   const titlesArray = [];
 
 
   for ( let i = 0; i < files.length; i++) {
       const reader = new FileReader();
       const file=files[i];
-
       reader.onload = (e) => {
+          const depthMap = file.webkitRelativePath.split('/')
+          const depth = depthMap.length
           const folderTitle = file.webkitRelativePath.split('/')[1];
-          const fileName = file.webkitRelativePath.split('/')[2];
-          const filePath = e.target.result;
-        
+          const fileName = depthMap[depthMap.length - 1]
+          const fileData = e.target.result;
+          const filePath = file.webkitRelativePath
+
         if (!titlesArray.includes(folderTitle)) {
           titlesArray.push(folderTitle);
           let newarray = [folderTitle];
           fileArray.push(newarray);
         }
 
-        fileData.push({ folderTitle, filePath, fileName})
-        console.log(fileArray[0])
-
-
-
-          if (fileData.length === files.length) {
-
-              setFolderTitle(folderTitle)
-
-              const jpegFiles = fileData.filter((file) => file.filePath.includes('image/jpeg'));
-              
-              if (jpegFiles.length > 0) {
-                setFileImage(jpegFiles[0].filePath)
+        for (let j = 0; j < fileArray.length; j++) {
+          if (folderTitle === fileArray[j][0]) {
+            fileArray[j].push({ folderTitle, fileName, fileData, filePath, depth }); 
+            break; 
           }
+          if (fileData.includes('image/jpeg')){
+            setFileImage(fileData)
+          } 
         }
   }
   reader.readAsDataURL(file);
 }
-setFileArray(fileData)
-console.log(fileArray)
-}
+} 
 
 
   return (
@@ -110,21 +120,30 @@ console.log(fileArray)
             </nav>
 
           {isCurrentPage === 1 && <Homepage
-           folderTitle={folderTitle}
+           currentFileArray={currentFileArray}
+           fileArray={fileArray}
+           folderTitles={folderTitle}
            current={pageChangeHandler}
-           img={fileImage}
+           videoHandler={videoListChangeHandler}
             />}
           {isCurrentPage === 2 && <Showpage
            current={pageChangeHandler}
-           fileArray={fileArray}
-           videoHandler={videoChangeHandler}
+           movieArray={movieArray}
+           fileChangeHandler={currentFileChangeHandler}
            fileIndexHandler={fileIndexHandler}
             />}
           {isCurrentPage === 3 && <Playerpage
            current={pageChangeHandler}
-           filePath={isFilePath}
+           fileData={isFilePath}
            movieArray={movieArray}
            fileIndex={fileIndex}
+            />}
+            {isCurrentPage === 4 && <SeasonPage
+           currentFileArray={currentFileArray}
+           fileArray={movieArray}
+           folderTitles={folderTitle}
+           current={pageChangeHandler}
+           videoListHandler={videoListChangeHandler}
             />}
       </header>
     </div>

@@ -4,15 +4,10 @@ import VideoPosterComponent from './VideoPosterComponent';
 
 
 const ShowPage = (props) => {
-
-  const data = props.fileArray;
-  const movieData = data.filter((file) => file.filePath.includes('video/mp4'));
-  const timeInSeconds = 420;
-
+  const movieData = props.movieArray
   const current = props.current
-  const setfilepath = props.videoHandler
+  const setfilepath = props.fileChangeHandler
   const indexSetter = props.fileIndexHandler
-
 
   return (
     <div>      
@@ -23,10 +18,10 @@ const ShowPage = (props) => {
         {movieData.map((movieData, index) => (
           <div key={index} className={styles.cursor} onClick={() => {
             current(3)
-            setfilepath(movieData.filePath)
+            setfilepath(movieData)
             indexSetter(index)
           }}>
-          <li className={styles.ShowItem} key={index}>Episode {index + 1}
+          <li className={styles.ShowItem} key={index}>Episode {movieData.fileName}
           </li>
           </div>
         ))}
