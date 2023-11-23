@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import styles from './Card.module.css'
 import logo from '../../assets/lanlogo.png'
 
@@ -14,8 +14,10 @@ const Card = (props) => {
   const handleClick = () => {
     fileArrayHandler(item)
     videoListHandler(item)
-    current(2)
-  }
+    console.log(movieArray)
+    const pageChoice = movieArray.some(movie => movie.depth > 3) ? 2 : 4;
+    current(pageChoice);
+  };
   return (
     
     <div className={styles.cardBx} onClick={(handleClick)}>
