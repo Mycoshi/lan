@@ -6,8 +6,10 @@ import SeasonCard from '../card/SeasonCard';
 const SeasonPage = (props) => {
   const currentFileArray = props.currentFileArray
   const title = props.fileTitle
+  const current = props.current
+  const videoHandler = props.videoListHandler
   const [imageSetter, setImageSetter] = useState([])
-  
+  const fileArrayHandler = props.fileArrayHandler
   
   const seasonFilter = currentFileArray
   .map((file) => file.filePath && (file.filePath.split('/')))
@@ -16,19 +18,21 @@ const SeasonPage = (props) => {
     const imgData = currentFileArray.find((file) => file.fileName === subString)
     return imgData.fileData
   }
- 
+ console.log(currentFileArray)
   return (
 
     
 
     <div className={styles.SeasonPageContainer}>
       <p>Season Page</p>
-      <button onClick = {() => (console.log(seasonFilter))}>Data</button>
       {seasonFilter.map((season, index) => season && (
         <SeasonCard
-        key={index} 
+        key={index}
+        current={current}
         title={season[season.length - 2]}
         img={handleImageSetter(season[season.length - 1])}
+        videoHandler={videoHandler}
+        currentFileArray={currentFileArray}
         />
       ))}
 

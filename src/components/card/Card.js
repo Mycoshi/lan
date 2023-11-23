@@ -4,21 +4,16 @@ import logo from '../../assets/lanlogo.png'
 
 const Card = (props) => {
   const current = props.current
-  const currentArray = props.currentArray
+  const currentArray = props.currentFileArray
   const img = props.img
   const videoListHandler = props.videoHandler
-  const handleClick = () => {
-    const hasDepthGreaterThan3 = currentArray.some(item => item.depth > 3);
-    if (hasDepthGreaterThan3) {
-      current(4)
-    }
-    else  {
-      current(2)
-    }
+  const fileArrayHandler = props.fileArrayHandler
+  const movieArray = props.movieArray
+  const item = props.item
 
-    videoListHandler(currentArray)
+  const handleClick = () => {
+    console.log('click')
   }
-  console.log(currentArray)
   return (
     
     <div className={styles.cardBx} onClick={(handleClick)}>

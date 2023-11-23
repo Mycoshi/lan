@@ -1,17 +1,17 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import styles from './Card.module.css'
-import logo from '../../assets/lanlogo.png'
 
 const SeasonCard = (props) => {
   const current = props.current
-  const currentArray = props.currentArray
+  const currentFileArray = props.currentFileArray
   const img = props.img
   const title = props.title
+  const videoListHandler = props.videoHandler
+
 
   return (
     
-    <div className={styles.cardBx} onClick={() => {
-    }}>
+    <div className={styles.cardBx} onClick={'handleSeasonClick(title)'}>
     <div className={styles.cardTitle}>{title}</div>
       <div className={styles.cardInfo}>
       </div>

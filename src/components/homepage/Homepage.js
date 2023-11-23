@@ -4,11 +4,13 @@ import styles from './Homepage.module.css'
 import Card from '../card/Card.js'
 
 const Homepage = (props) => {
-  const currentfileArray = props.currentFileArray
+  const currentFileArray = props.currentFileArray
   const fileArray = props.fileArray
   const title = props.fileTitle
   const current = props.current
   const videoHandler = props.videoHandler
+  const fileArrayHandler = props.fileArrayHandler
+  const movieArray = props.movieArray
   
   
   function findFirstJpgFileName(array) {
@@ -27,9 +29,12 @@ const Homepage = (props) => {
           key={index}
           Title={item[0]}
           current={current}
-          currentArray={item}
+          currentItem={item}
+          currentFileArray={currentFileArray}
           img={findFirstJpgFileName(fileArray[index])}
           videoHandler={videoHandler}
+          fileArrayHandler={fileArrayHandler}
+          movieArray={movieArray}
         />
           
       ))} 

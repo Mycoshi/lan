@@ -26,26 +26,15 @@ const [fileIndex, setFileIndex] = useState(0)
 const pageChangeHandler = (newState) => {
   setIsCurrentPage(newState);
 }
-const videoListChangeHandler = (newState) => {
+const currentFileArrayChangeHandler = (newState) => {
   setCurrentFileArray(newState)
-  console.log(currentFileArray)
+}
+const movieListChangeHandler = (newState) => {
   const selectedArray = newState
   .filter( file => file.fileData && file.fileData.includes('video/mp4'))
-  .sort((a, b) => {
-    const extractNumber = (fileName) => {
-      const match = fileName.match(/\d+/); // Extract numeric part using regex
-      return match ? parseInt(match[0], 10) : 0; // Parse the numeric part as an integer
-    };
-
-    const numericPartA = extractNumber(a.fileName);
-    const numericPartB = extractNumber(b.fileName);
-
-    return numericPartA - numericPartB;
-  })
-  
-  
   setMovieArray(selectedArray)
 }
+
 const currentFileChangeHandler = (newState) => {
   setIsFilePath(newState)
 }
@@ -124,7 +113,9 @@ const  handleUpload = (event) => {
            fileArray={fileArray}
            folderTitles={folderTitle}
            current={pageChangeHandler}
-           videoHandler={videoListChangeHandler}
+           videoHandler={movieListChangeHandler}
+           fileArrayHandler={currentFileArrayChangeHandler}
+           movieArray={movieArray}
             />}
           {isCurrentPage === 2 && <Showpage
            current={pageChangeHandler}
@@ -140,10 +131,12 @@ const  handleUpload = (event) => {
             />}
             {isCurrentPage === 4 && <SeasonPage
            currentFileArray={currentFileArray}
+           fileArrayHandler={currentFileArrayChangeHandler}
            fileArray={movieArray}
            folderTitles={folderTitle}
            current={pageChangeHandler}
-           videoListHandler={videoListChangeHandler}
+           videoListHandler={movieListChangeHandler}
+           
             />}
       </header>
     </div>
