@@ -9,10 +9,12 @@ const Card = (props) => {
   const videoListHandler = props.videoHandler
   const fileArrayHandler = props.fileArrayHandler
   const movieArray = props.movieArray
-  const item = props.item
+  const item = props.currentItem
 
   const handleClick = () => {
-    console.log('click')
+    fileArrayHandler(item)
+    videoListHandler(item)
+    current(2)
   }
   return (
     
