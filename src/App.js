@@ -32,6 +32,17 @@ const currentFileArrayChangeHandler = (newState) => {
 const movieListChangeHandler = (newState) => {
   const selectedArray = newState
   .filter( file => file.fileData && file.fileData.includes('video/mp4'))
+  .sort((a, b) => {
+    const extractNumber = (fileName) => {
+      const match = fileName.match(/\d+/); // Extract numeric part using regex
+      return match ? parseInt(match[0], 10) : 0; // Parse the numeric part as an integer
+    };
+
+    const numericPartA = extractNumber(a.fileName);
+    const numericPartB = extractNumber(b.fileName);
+
+    return numericPartA - numericPartB;
+  })
   setMovieArray(selectedArray)
 }
 
@@ -45,14 +56,14 @@ const fileIndexHandler = (newState) => {
 const [folderTitle, setFolderTitle] = useState([])
 const [fileImage, setFileImage] = useState(null)
 
-const  handleUpload = (event) => {
+const  handleUpload = async (event) => {
   const files = event.target.files;
   const titlesArray = [];
 
-
-  for ( let i = 0; i < files.length; i++) {
+  const processFile = async (file) => {
+    return new Promise((resolve, reject) => {
       const reader = new FileReader();
-      const file=files[i];
+
       reader.onload = (e) => {
           const depthMap = file.webkitRelativePath.split('/')
           const depth = depthMap.length
@@ -74,12 +85,30 @@ const  handleUpload = (event) => {
           }
           if (fileData.includes('image/jpeg')){
             setFileImage(fileData)
-          } 
+          }
         }
-  }
+        resolve(); 
+  };
+  reader.onerror = (error) =>{
+    reject(error);
+  };
   reader.readAsDataURL(file);
-}
+});
 } 
+
+const promises = [];
+
+for (let i = 0; i < files.length; i++) {
+  promises.push(processFile(files[i]));
+}
+try {
+  await Promise.all(promises);
+  console.log('async file process completed')
+  console.log(fileArray)
+} catch (error) {
+  console.log('Error Proccessing files', error)
+}
+};
 
 
   return (
@@ -87,7 +116,7 @@ const  handleUpload = (event) => {
       <header className="App-header">
 
             <nav className='Nav'>
-                <img className='navlogo' src={logo} onClick={() => pageChangeHandler(1)}/>
+                <img className='navlogo' alt='Logo' src={logo} onClick={() => pageChangeHandler(1)}/>
               <div className='ui-container'>
 
                 <div className='upload-container'>
@@ -135,6 +164,7 @@ const  handleUpload = (event) => {
            fileArray={movieArray}
            folderTitles={folderTitle}
            current={pageChangeHandler}
+           movieArray={movieArray}
            videoListHandler={movieListChangeHandler}
            
             />}

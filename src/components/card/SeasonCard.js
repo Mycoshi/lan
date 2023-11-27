@@ -8,10 +8,12 @@ const SeasonCard = (props) => {
   const title = props.title
   const videoListHandler = props.videoHandler
 
+  function handleSeasonChoice(title) {
+  } 
 
   return (
     
-    <div className={styles.cardBx} onClick={'handleSeasonClick(title)'}>
+    <div className={styles.cardBx} onClick={()=> (console.log('seasoncardclick'))}>
     <div className={styles.cardTitle}>{title}</div>
       <div className={styles.cardInfo}>
       </div>

@@ -15,8 +15,13 @@ const Card = (props) => {
     fileArrayHandler(item)
     videoListHandler(item)
     console.log(movieArray)
-    const pageChoice = movieArray.some(movie => movie.depth > 3) ? 2 : 4;
-    current(pageChoice);
+    if (currentArray != null) {
+      const pageChoice = currentArray.some(file => file && file.depth > 3) ? 4 : 2;// this is not always firing, and can put the wrong clicks at seasons page assuming to do with length of the array?
+      current(pageChoice);
+    }
+    else {
+      console.log('No array set')
+    }
   };
   return (
     
