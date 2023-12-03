@@ -8,7 +8,7 @@
 }
 .Nav {
  display: grid;
- grid-template-columns: 1fr 1fr;
+ grid-template-columns: 1fr 1fr 1fr;
  align-items: center;
  justify-content: space-between;
  margin: 5%;
@@ -24,6 +24,7 @@
    border-radius: 25px;
    flex-grow: 1;
 }
+
 .ui-container {
   display: grid;
   grid-template-columns: 1fr 1fr;

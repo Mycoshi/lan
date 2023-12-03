@@ -29,6 +29,7 @@ const pageChangeHandler = (newState) => {
 const currentFileArrayChangeHandler = (newState) => {
   setCurrentFileArray(newState)
 }
+// THIS IS A HACKY SORT AND SHOULD BE ADDRESSED WHEN REAL SORTS ARE IMPLENMENTED THIS WILL BUG OUT IF FILENAMES HAVE OTHER NUMBERS PROLLY
 const movieListChangeHandler = (newState) => {
   const selectedArray = newState
   .filter( file => file.fileData && file.fileData.includes('video/mp4'))
@@ -37,7 +38,6 @@ const movieListChangeHandler = (newState) => {
       const match = fileName.match(/\d+/); // Extract numeric part using regex
       return match ? parseInt(match[0], 10) : 0; // Parse the numeric part as an integer
     };
-
     const numericPartA = extractNumber(a.fileName);
     const numericPartB = extractNumber(b.fileName);
 
@@ -56,6 +56,7 @@ const fileIndexHandler = (newState) => {
 const [folderTitle, setFolderTitle] = useState([])
 const [fileImage, setFileImage] = useState(null)
 
+// converting to async added some speed, idk if it stopped the hangs from memory overflow
 const  handleUpload = async (event) => {
   const files = event.target.files;
   const titlesArray = [];
@@ -64,12 +65,13 @@ const  handleUpload = async (event) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
 
+//Creates data from folder 
       reader.onload = (e) => {
+          const fileData = e.target.result;
           const depthMap = file.webkitRelativePath.split('/')
           const depth = depthMap.length
           const folderTitle = file.webkitRelativePath.split('/')[1];
           const fileName = depthMap[depthMap.length - 1]
-          const fileData = e.target.result;
           const filePath = file.webkitRelativePath
 
         if (!titlesArray.includes(folderTitle)) {
@@ -104,7 +106,6 @@ for (let i = 0; i < files.length; i++) {
 try {
   await Promise.all(promises);
   console.log('async file process completed')
-  console.log(fileArray)
 } catch (error) {
   console.log('Error Proccessing files', error)
 }
@@ -117,7 +118,6 @@ try {
 
             <nav className='Nav'>
                 <img className='navlogo' alt='Logo' src={logo} onClick={() => pageChangeHandler(1)}/>
-              <div className='ui-container'>
 
                 <div className='upload-container'>
                   <label htmlFor='folderUpload'>
@@ -134,7 +134,6 @@ try {
                 </div>
  
                 <input className='Search' type='search' />
-              </div>
             </nav>
 
           {isCurrentPage === 1 && <Homepage

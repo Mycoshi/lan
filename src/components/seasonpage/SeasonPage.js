@@ -12,27 +12,20 @@ const SeasonPage = (props) => {
   const fileArrayHandler = props.fileArrayHandler
   const movieArray = props.movieArray
 
-
-
-// this slices the filepath into everything but the overhead folders and the file itself
-  const stringSplit = currentFileArray
-  .map((file) => file.filePath && (file.filePath.split('/')))
-  let stringSplitPurify = stringSplit.filter(file => file !== undefined)
-  const modifiedStringSplitPurify = stringSplitPurify
-  .map(subArray => {
-    return  subArray.slice(2, -1);
-  })
-  .filter ((file) => file.length > 0);
-
-  // this creates a set of unique values
-  const seasonFilter= []
-  let seasonFilter1 = [].concat(...modifiedStringSplitPurify)
-  const seasonSet = new Set()
-  seasonFilter1.forEach(string => {
-    seasonSet.add(string)
-  })
-  seasonFilter.push(...seasonSet)
-  
+    // checks for videos in the folders and shows folder if it finds them
+    const rootMovieFilter = movieArray.map(file => {
+      const splitPath = file.filePath.split('/')
+      if (splitPath.length >= 2) {
+        // Return the second-to-last element
+        return splitPath[splitPath.length - 2];
+      } else {
+        // Handle cases where splitPath has fewer than two elements
+        return undefined; // or any other value you want to use for such cases
+      }
+    });
+    const uniqueValues = rootMovieFilter.filter(value => value !== undefined);
+    const uniqueSet = new Set(uniqueValues);
+    const seasons =  [...uniqueSet]
 
   // this searches the array for an image matching that value
   const imgData = currentFileArray.filter((file) => file.fileData && file.fileData.includes('data:image'))
@@ -44,15 +37,15 @@ const SeasonPage = (props) => {
   } catch (e) {
     console.log(e)
   }}
-    
+
+
+
   return (
 
-    
 
     <div className={styles.SeasonPageContainer}>
       <p>Season Page</p>
-      <button onClick = {() => (console.log(imgData))}>Data</button>
-      {seasonFilter.map((season, index) => season && (
+      {seasons.map((season, index) => season && (
         <SeasonCard
         key={index}
         current={current}
