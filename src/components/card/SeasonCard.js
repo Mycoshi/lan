@@ -23,7 +23,7 @@ const SeasonCard = (props) => {
 
   return (
     
-    <div className={styles.cardBx} onClick={handleSeasonChoice}>
+    <div className={styles.SeasonCardBx} onClick={handleSeasonChoice}>
     <div className={styles.cardTitle}>{title}</div>
       <div className={styles.cardInfo}>
       </div>

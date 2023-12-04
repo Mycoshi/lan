@@ -44,7 +44,12 @@ const SeasonPage = (props) => {
 
 
     <div className={styles.SeasonPageContainer}>
-      <p>Season Page</p>
+
+      <div className={styles.header}>
+      <p>{currentFileArray[0]}</p>
+      </div>
+
+      <div className={styles.CardGrid}>
       {seasons.map((season, index) => season && (
         <SeasonCard
         key={index}
@@ -57,7 +62,8 @@ const SeasonPage = (props) => {
         />
         
       ))}
-
+    </div>
+    
     </div>
   )
 }

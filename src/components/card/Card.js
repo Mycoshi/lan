@@ -23,6 +23,12 @@ const Card = (props) => {
       console.log('No array set')
     }
   };
+
+
+
+
+
+  
   return (
     
     <div className={styles.cardBx} onClick={(handleClick)}>

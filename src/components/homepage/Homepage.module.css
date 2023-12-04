@@ -1,5 +1,7 @@
 .HomepageContainer {
     width: 95%;
-    border:1px solid white;
     margin: 5%;
+}
+.HomepageGrid {
+    display: flex;
 }

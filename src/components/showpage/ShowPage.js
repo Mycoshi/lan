@@ -25,7 +25,7 @@ const ShowPage = (props) => {
             indexSetter(index)
           }}>
           <li className={styles.ShowItem} key={index}>
-            <p>Episode {movieData.fileName}</p>
+            <p>Episode {movieData.fileName.replace(/\.mp4$/, '')}</p>
           </li>
           </div>
         ))}

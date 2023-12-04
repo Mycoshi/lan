@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-//import handleupload from './logic/upload'
 
 
 import logo from './assets/lanlogo.png';
@@ -15,12 +14,15 @@ function App() {
 
 
 //Page Render Method smart people would use context, we're not smart.
-const [isCurrentPage, setIsCurrentPage] = useState(1)
-const [isFilePath, setIsFilePath] = useState(null)
-const [fileArray, setFileArray] = useState([])
-const [currentFileArray, setCurrentFileArray] = useState(null)
-const [movieArray, setMovieArray] = useState([])
-const [fileIndex, setFileIndex] = useState(0)
+const [isCurrentPage, setIsCurrentPage] = useState(1);
+const [isFilePath, setIsFilePath] = useState(null);
+const [fileArray, setFileArray] = useState([]);
+const [currentFileArray, setCurrentFileArray] = useState(null);
+const [movieArray, setMovieArray] = useState([]);
+const [fileIndex, setFileIndex] = useState(0);
+const [searchTerm, setSearchTerm] = useState('');
+const titlesArray = [];
+const [filteredTitles, setFilteredTitles] = useState(null);
 
 
 const pageChangeHandler = (newState) => {
@@ -57,9 +59,9 @@ const [folderTitle, setFolderTitle] = useState([])
 const [fileImage, setFileImage] = useState(null)
 
 // converting to async added some speed, idk if it stopped the hangs from memory overflow
+
 const  handleUpload = async (event) => {
   const files = event.target.files;
-  const titlesArray = [];
 
   const processFile = async (file) => {
     return new Promise((resolve, reject) => {
@@ -74,6 +76,8 @@ const  handleUpload = async (event) => {
           const fileName = depthMap[depthMap.length - 1]
           const filePath = file.webkitRelativePath
 
+
+
         if (!titlesArray.includes(folderTitle)) {
           titlesArray.push(folderTitle);
           let newarray = [folderTitle];
@@ -82,11 +86,8 @@ const  handleUpload = async (event) => {
 
         for (let j = 0; j < fileArray.length; j++) {
           if (folderTitle === fileArray[j][0]) {
-            fileArray[j].push({ folderTitle, fileName, fileData, filePath, depth }); 
+            fileArray[j].push({ folderTitle, fileName, fileData, filePath, depth,}); 
             break; 
-          }
-          if (fileData.includes('image/jpeg')){
-            setFileImage(fileData)
           }
         }
         resolve(); 
@@ -111,12 +112,26 @@ try {
 }
 };
 
+// Search function for nav
+const handleSearch = (event) => {
+  const searchTerm = event.target.value;
+  setSearchTerm(searchTerm);
+
+  // Filter the titlesArray based on the search term
+  const filteredTitles = fileArray.filter((array) =>
+    array[0].toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Update the state with the filtered titles
+  setFilteredTitles(filteredTitles);
+};
 
   return (
     <div className="App">
       <header className="App-header">
 
             <nav className='Nav'>
+            <button onClick = {() => (console.log(fileArray))}>Data</button>
                 <img className='navlogo' alt='Logo' src={logo} onClick={() => pageChangeHandler(1)}/>
 
                 <div className='upload-container'>
@@ -132,14 +147,22 @@ try {
                     onChange={handleUpload}
                   />
                 </div>
+
  
-                <input className='Search' type='search' />
+                <input
+                  className='Search'
+                  type='search'
+                  placeholder='Search titles'
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  />
             </nav>
 
           {isCurrentPage === 1 && <Homepage
            currentFileArray={currentFileArray}
            fileArray={fileArray}
            folderTitles={folderTitle}
+           filteredTitles={filteredTitles}
            current={pageChangeHandler}
            videoHandler={movieListChangeHandler}
            fileArrayHandler={currentFileArrayChangeHandler}
