@@ -60,22 +60,70 @@ const [fileImage, setFileImage] = useState(null)
 
 // converting to async added some speed, idk if it stopped the hangs from memory overflow
 
-const  handleUpload = async (event) => {
+// it didnt and it turns out when we monitored performance it was actually cpu that bottlednecked so its more then likely having issues with the size of the load maybe try to break up the promises?
+
+//changed it for individual uploads resolved cpu  performance but it still crashes right before upload finished. sys monitor does show a huge mem spike so we will prolly retrigger the truncater
+
+// truncater made no difference, this process eats about 16gb of memory according to sys monitor before crashing which is nuts we will probably just have to figure out how to scrap this sooner then later an reorient the videos towards JUST the video page, while preserving the images and filepaths.
+
+//ok here is where we stand. JS lacks the ability to seek relative pathing on local machines for secruity reasons without FileReader. FileRead + Read as URl are EXTREMLY memory intensive. To the point where probably anything beyond 75 episodes will break this, regardless of whether we learn how to learn useEffect properly.
+
+/* so the complete file object has hope, it looks like:
+
+File {name: '1.mp4', lastModified: 1701669988928, lastModifiedDate: Sun Dec 03 2023 23:06:28 GMT-0700 (Mountain Standard Time), webkitRelativePath: 'Lan Samples/Zombie Land Saga/1.mp4', size: 108606380, …}
+lastModified
+: 
+1701669988928
+lastModifiedDate
+: 
+Sun Dec 03 2023 23:06:28 GMT-0700 (Mountain Standard Time) {}
+name
+: 
+"1.mp4"
+size
+: 
+108606380
+type
+: 
+"video/mp4"
+webkitRelativePath
+: 
+"Lan Samples/Zombie Land Saga/1.mp4" 
+*/
+
+// With webkitRelativePath we should be able to extract pathing and whether its an image before involving the reader and then target the reader SOLELY on what the component needs. This also gives us a lot of other objects to use in the future.
+
+//think about building a reusable filereader to pass down 
+
+
+const handleUpload = async (event) => {
   const files = event.target.files;
 
-  const processFile = async (file) => {
+  const processFile = (file) => {
     return new Promise((resolve, reject) => {
+      console.log(file)
+
+
+
+      //gonna try to move things out of the file reader
+
       const reader = new FileReader();
 
-//Creates data from folder 
+      // Creates data from folder
       reader.onload = (e) => {
-          const fileData = e.target.result;
-          const depthMap = file.webkitRelativePath.split('/')
-          const depth = depthMap.length
-          const folderTitle = file.webkitRelativePath.split('/')[1];
-          const fileName = depthMap[depthMap.length - 1]
-          const filePath = file.webkitRelativePath
+        const fileData = e.target.result;
+        const depthMap = file.webkitRelativePath.split('/');
+        const depth = depthMap.length;
+        const folderTitle = file.webkitRelativePath.split('/')[1];
+        const fileName = depthMap[depthMap.length - 1];
+        const filePath = file.webkitRelativePath;
 
+        //CLIPPER FOR SPEED BUILD THE REST OF THE VIDEO ON PLAYER PAGE?!?!
+        let truncatedFileData = fileData; // Initialize with the original fileData
+        if (fileData.includes('data:video/mp4')) {
+          // Truncate fileData to include only the part starting from 'data:video/mp4
+          truncatedFileData = fileData.split(';')[0]
+        }
 
 
         if (!titlesArray.includes(folderTitle)) {
@@ -86,30 +134,29 @@ const  handleUpload = async (event) => {
 
         for (let j = 0; j < fileArray.length; j++) {
           if (folderTitle === fileArray[j][0]) {
-            fileArray[j].push({ folderTitle, fileName, fileData, filePath, depth,}); 
-            break; 
+            fileArray[j].push({ folderTitle, fileName, fileData, filePath, depth });
+            break;
           }
         }
-        resolve(); 
+        resolve();
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(file);
+    });
   };
-  reader.onerror = (error) =>{
-    reject(error);
-  };
-  reader.readAsDataURL(file);
-});
-} 
 
-const promises = [];
+  for (let i = 0; i < files.length; i++) {
+    try {
+      await processFile(files[i]);
+      console.log(`File ${i + 1} processed successfully`);
+    } catch (error) {
+      console.log(`Error processing file ${i + 1}`, error);
+    }
+  }
 
-for (let i = 0; i < files.length; i++) {
-  promises.push(processFile(files[i]));
-}
-try {
-  await Promise.all(promises);
-  console.log('async file process completed')
-} catch (error) {
-  console.log('Error Proccessing files', error)
-}
+  console.log('Async file processing completed');
 };
 
 // Search function for nav
