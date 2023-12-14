@@ -29,19 +29,17 @@ const Homepage = (props) => {
     <div className={styles.HomepageContainer}>
       <div className={styles.HomepageGrid}>
        {filteredTitles.map((item, index) => (
-        
-        <Card
-          key={index}
-          Title={item[0]}
-          current={current}
-          currentItem={item}
-          currentFileArray={currentFileArray}
-          img={findFirstJpgFileName(fileArray[index])}
-          videoHandler={videoHandler}
-          fileArrayHandler={fileArrayHandler}
-          movieArray={movieArray}
-        />
-          
+          <Card
+            key={index}
+            Title={item[0]}
+            current={current}
+            currentItem={item}
+            currentFileArray={currentFileArray}
+            img={findFirstJpgFileName(fileArray[index])}
+            videoHandler={videoHandler}
+            fileArrayHandler={fileArrayHandler}
+            movieArray={movieArray}
+          />
       ))} 
       </div>
     </div>
