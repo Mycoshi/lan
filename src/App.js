@@ -66,7 +66,7 @@ const [fileImage, setFileImage] = useState(null)
 
 // truncater made no difference, this process eats about 16gb of memory according to sys monitor before crashing which is nuts we will probably just have to figure out how to scrap this sooner then later an reorient the videos towards JUST the video page, while preserving the images and filepaths.
 
-//ok here is where we stand. JS lacks the ability to seek relative pathing on local machines for secruity reasons without FileReader. FileRead + Read as URl are EXTREMLY memory intensive. To the point where probably anything beyond 75 episodes will break this, regardless of whether we learn how to learn useEffect properly.
+//ok here is where we stand. JS lacks the ability to seek relative pathing on local machines for secruity reasons without FileReader. FileReader + Read as URl are EXTREMLY memory intensive. Filerader apparently is creating a 'stream' of the videos to memory, to the point where probably anything beyond 75 episodes will break this, regardless of whether we learn how to learn useEffect properly.
 
 /* so the complete file object has hope, it looks like:
 
