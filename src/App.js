@@ -101,52 +101,28 @@ const handleUpload = async (event) => {
 
   const processFile = (file) => {
     return new Promise((resolve, reject) => {
-      console.log(file)
+      const fileType = file.type;
+      const depthMap = file.webkitRelativePath.split('/');
+      const depth = depthMap.length;
+      const folderTitle = file.webkitRelativePath.split('/')[1];
+      const fileName = depthMap[depthMap.length - 1];
+      const filePath = file.webkitRelativePath;
 
+      if (!titlesArray.includes(folderTitle)) {
+        titlesArray.push(folderTitle);
+        let newarray = [folderTitle];
+        fileArray.push(newarray);
+      }
 
-
-      //gonna try to move things out of the file reader
-
-      const reader = new FileReader();
-
-      // Creates data from folder
-      reader.onload = (e) => {
-        const fileData = e.target.result;
-        const depthMap = file.webkitRelativePath.split('/');
-        const depth = depthMap.length;
-        const folderTitle = file.webkitRelativePath.split('/')[1];
-        const fileName = depthMap[depthMap.length - 1];
-        const filePath = file.webkitRelativePath;
-
-        //CLIPPER FOR SPEED BUILD THE REST OF THE VIDEO ON PLAYER PAGE?!?!
-        let truncatedFileData = fileData; // Initialize with the original fileData
-        if (fileData.includes('data:video/mp4')) {
-          // Truncate fileData to include only the part starting from 'data:video/mp4
-          truncatedFileData = fileData.split(';')[0]
+      for (let j = 0; j < fileArray.length; j++) {
+        if (folderTitle === fileArray[j][0]) {
+          fileArray[j].push({depth, fileType, fileName, filePath, folderTitle });
+          break;
         }
-
-
-        if (!titlesArray.includes(folderTitle)) {
-          titlesArray.push(folderTitle);
-          let newarray = [folderTitle];
-          fileArray.push(newarray);
-        }
-
-        for (let j = 0; j < fileArray.length; j++) {
-          if (folderTitle === fileArray[j][0]) {
-            fileArray[j].push({ folderTitle, fileName, fileData, filePath, depth });
-            break;
-          }
-        }
-        resolve();
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
-      reader.readAsDataURL(file);
+      }
+      resolve();
     });
   };
-
   for (let i = 0; i < files.length; i++) {
     try {
       await processFile(files[i]);
@@ -178,7 +154,6 @@ const handleSearch = (event) => {
       <header className="App-header">
 
             <nav className='Nav'>
-            <button onClick = {() => (console.log(fileArray))}>Data</button>
                 <img className='navlogo' alt='Logo' src={logo} onClick={() => pageChangeHandler(1)}/>
 
                 <div className='upload-container'>
@@ -204,6 +179,7 @@ const handleSearch = (event) => {
                   onChange={handleSearch}
                   />
             </nav>
+            <button onClick = {() => (console.log(fileArray))}>Data</button>
 
           {isCurrentPage === 1 && <Homepage
            currentFileArray={currentFileArray}
