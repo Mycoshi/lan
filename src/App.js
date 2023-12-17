@@ -98,7 +98,7 @@ webkitRelativePath
 
 const handleUpload = async (event) => {
   const files = event.target.files;
-
+  const reader = new FileReader()
   const processFile = (file) => {
     return new Promise((resolve, reject) => {
       const fileType = file.type;
@@ -119,16 +119,35 @@ const handleUpload = async (event) => {
           fileArray[j].push({depth, fileType, fileName, filePath, folderTitle });
           break;
         }
+
+        if (fileType.includes('image')) {
+          reader.onload = (e) => {
+            console.log('fired2')
+            const fileData = e.target.result
+            fileArray[j].push({fileData})
+            reader.onerror = (error) => {
+              reject(error);
+            };
+            reader.readAsDataURL(file);
+            
+          }
+          break;
+        }
+
+
+
       }
+
+
+
+
       resolve();
     });
   };
   for (let i = 0; i < files.length; i++) {
     try {
       await processFile(files[i]);
-      console.log(`File ${i + 1} processed successfully`);
     } catch (error) {
-      console.log(`Error processing file ${i + 1}`, error);
     }
   }
 
