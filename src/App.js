@@ -107,6 +107,7 @@ const handleUpload = async (event) => {
       const folderTitle = file.webkitRelativePath.split('/')[1];
       const fileName = depthMap[depthMap.length - 1];
       const filePath = file.webkitRelativePath;
+      const fileData = null
 
       if (!titlesArray.includes(folderTitle)) {
         titlesArray.push(folderTitle);
@@ -115,25 +116,25 @@ const handleUpload = async (event) => {
       }
 
       for (let j = 0; j < fileArray.length; j++) {
+   
+
         if (folderTitle === fileArray[j][0]) {
-          fileArray[j].push({depth, fileType, fileName, filePath, folderTitle });
+          fileArray[j].push({depth, fileType, fileName, filePath, folderTitle});
           break;
         }
-
         if (fileType.includes('image')) {
+
           reader.onload = (e) => {
-            console.log('fired2')
-            const fileData = e.target.result
-            fileArray[j].push({fileData})
+            const Data = e.target.result
             reader.onerror = (error) => {
               reject(error);
+              console.log('lost photo')
             };
-            reader.readAsDataURL(file);
-            
+            fileArray[j].push(Data)
           }
+          reader.readAsDataURL(file);
           break;
-        }
-
+        }        
 
 
       }
