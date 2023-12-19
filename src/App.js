@@ -98,7 +98,6 @@ webkitRelativePath
 
 const handleUpload = async (event) => {
   const files = event.target.files;
-  const reader = new FileReader()
   const processFile = (file) => {
     return new Promise((resolve, reject) => {
       const fileType = file.type;
@@ -107,7 +106,6 @@ const handleUpload = async (event) => {
       const folderTitle = file.webkitRelativePath.split('/')[1];
       const fileName = depthMap[depthMap.length - 1];
       const filePath = file.webkitRelativePath;
-      const fileData = null
 
       if (!titlesArray.includes(folderTitle)) {
         titlesArray.push(folderTitle);
@@ -116,25 +114,28 @@ const handleUpload = async (event) => {
       }
 
       for (let j = 0; j < fileArray.length; j++) {
-   
-
-        if (folderTitle === fileArray[j][0]) {
-          fileArray[j].push({depth, fileType, fileName, filePath, folderTitle});
-          break;
-        }
+        const fileData = []
         if (fileType.includes('image')) {
-
+          const reader = new FileReader()
           reader.onload = (e) => {
-            const Data = e.target.result
+            const data = e.target.result
+            fileData.push(data)
             reader.onerror = (error) => {
               reject(error);
               console.log('lost photo')
             };
-            fileArray[j].push(Data)
           }
-          reader.readAsDataURL(file);
-          break;
+          reader.readAsDataURL(file)
+        }
+        else {
+          console.log('not an image')
         }        
+
+        if (folderTitle === fileArray[j][0]) {
+          fileArray[j].push({depth, fileType, fileName, filePath, folderTitle, fileData});
+          break;
+        }
+       
 
 
       }
