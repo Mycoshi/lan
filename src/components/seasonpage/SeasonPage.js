@@ -28,7 +28,7 @@ const SeasonPage = (props) => {
     const seasons =  [...uniqueSet]
 
   // this searches the array for an image matching that value
-  const imgData = currentFileArray.filter((file) => file.fileData && file.fileData.includes('data:image'))
+  const imgData = currentFileArray.filter((file) => file.fileType && file.fileType.includes('image'))
 
   function handleImageSetter(subString) {
     try {

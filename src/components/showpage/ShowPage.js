@@ -17,7 +17,6 @@ const ShowPage = (props) => {
   return (
     <div>      
       <ul className={styles.ShowGrid}>
-
         {movieData.map((movieData, index) => (
           <div key={index} className={styles.cursor} onClick={() => {
             current(3)

@@ -24,7 +24,7 @@ const Homepage = (props) => {
 
    // Filter the fileArray based on the filteredTitles
 
-  if (filteredTitles != null ) return (
+ return (
 
     <div className={styles.HomepageContainer}>
       <div className={styles.HomepageGrid}>
@@ -43,30 +43,6 @@ const Homepage = (props) => {
       ))} 
       </div>
     </div>
-  );
-  else return (
-    <>
-     <div className={styles.HomepageContainer}>
-      <div className={styles.HomepageGrid}>
-       {fileArray.map((item, index) => (
-        
-        <Card
-          key={index}
-          Title={item[0]}
-          current={current}
-          currentItem={item}
-          currentFileArray={currentFileArray}
-          img={findFirstJpgFileName(fileArray[index])}
-          videoHandler={videoHandler}
-          fileArrayHandler={fileArrayHandler}
-          movieArray={movieArray}
-        />
-          
-      ))} 
-      </div>
-    </div>
-    </>
-  )  
-}
+  )}
 
 export default Homepage 

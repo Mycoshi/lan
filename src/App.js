@@ -22,7 +22,7 @@ const [movieArray, setMovieArray] = useState([]);
 const [fileIndex, setFileIndex] = useState(0);
 const [searchTerm, setSearchTerm] = useState('');
 const titlesArray = [];
-const [filteredTitles, setFilteredTitles] = useState(null);
+const [filteredTitles, setFilteredTitles] = useState([]);
 
 
 const pageChangeHandler = (newState) => {
@@ -34,7 +34,7 @@ const currentFileArrayChangeHandler = (newState) => {
 // THIS IS A HACKY SORT AND SHOULD BE ADDRESSED WHEN REAL SORTS ARE IMPLENMENTED THIS WILL BUG OUT IF FILENAMES HAVE OTHER NUMBERS PROLLY
 const movieListChangeHandler = (newState) => {
   const selectedArray = newState
-  .filter( file => file.fileData && file.fileData.includes('video/mp4'))
+  .filter( file => file.fileType && file.fileType.includes('video/mp4'))
   .sort((a, b) => {
     const extractNumber = (fileName) => {
       const match = fileName.match(/\d+/); // Extract numeric part using regex
@@ -154,13 +154,16 @@ const handleUpload = async (event) => {
   }
 
   console.log('Async file processing completed');
+  setFilteredTitles(fileArray);
+  console.log(fileArray);
 };
 
 // Search function for nav
 const handleSearch = (event) => {
   const searchTerm = event.target.value;
   setSearchTerm(searchTerm);
-
+};
+useEffect(() => {
   // Filter the titlesArray based on the search term
   const filteredTitles = fileArray.filter((array) =>
     array[0].toLowerCase().includes(searchTerm.toLowerCase())
@@ -168,7 +171,8 @@ const handleSearch = (event) => {
 
   // Update the state with the filtered titles
   setFilteredTitles(filteredTitles);
-};
+}, [searchTerm, fileArray]);
+
 
   return (
     <div className="App">
@@ -200,7 +204,6 @@ const handleSearch = (event) => {
                   onChange={handleSearch}
                   />
             </nav>
-            <button onClick = {() => (console.log(fileArray))}>Data</button>
 
           {isCurrentPage === 1 && <Homepage
            currentFileArray={currentFileArray}
@@ -213,6 +216,7 @@ const handleSearch = (event) => {
            movieArray={movieArray}
             />}
           {isCurrentPage === 2 && <Showpage
+           currentFileArray={currentFileArray}
            current={pageChangeHandler}
            movieArray={movieArray}
            fileChangeHandler={currentFileChangeHandler}
