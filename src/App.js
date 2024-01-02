@@ -32,6 +32,8 @@ const currentFileArrayChangeHandler = (newState) => {
   setCurrentFileArray(newState)
 }
 // THIS IS A HACKY SORT AND SHOULD BE ADDRESSED WHEN REAL SORTS ARE IMPLENMENTED THIS WILL BUG OUT IF FILENAMES HAVE OTHER NUMBERS PROLLY
+
+//Creates individual arrays of episodes with only mp4s
 const movieListChangeHandler = (newState) => {
   const selectedArray = newState
   .filter( file => file.fileType && file.fileType.includes('video/mp4'))
@@ -95,7 +97,7 @@ webkitRelativePath
 
 //think about building a reusable filereader to pass down 
 
-
+//creates source array with all data
 const handleUpload = async (event) => {
   const files = event.target.files;
   const processFile = (file) => {
@@ -140,12 +142,10 @@ const handleUpload = async (event) => {
 
       }
 
-
-
-
       resolve();
     });
   };
+  //ASYNC FINISHES HERE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
   for (let i = 0; i < files.length; i++) {
     try {
       await processFile(files[i]);
@@ -195,7 +195,6 @@ useEffect(() => {
                   />
                 </div>
 
- 
                 <input
                   className='Search'
                   type='search'
@@ -206,6 +205,7 @@ useEffect(() => {
             </nav>
 
           {isCurrentPage === 1 && <Homepage
+          
            currentFileArray={currentFileArray}
            fileArray={fileArray}
            folderTitles={folderTitle}

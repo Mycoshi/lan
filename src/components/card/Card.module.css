@@ -2,7 +2,6 @@
     display: flex;
   }
   .cardBx {
-    height: 40vh;
     background-color: #1d0841;
     filter: opacity(0.5);
     filter: brightness(1.2);
@@ -17,11 +16,10 @@
     align-items: center;
     justify-content: center;
     align-self: center;
-    height:50vh;
     width:95%;
   }
   .cardBx:hover{
-    transform: scale(1.2);
+    transform: scale(1.1);
   }
   .cardInfo {
     display: flex;
@@ -29,16 +27,19 @@
   }
   .cardTitle {
     font-size: small;
+    font-weight: 700;
+    letter-spacing:1px;
+    text-decoration: underline;
+    padding: 15px;
   }
   .cardImg {
-    padding: 10%;
     object-fit: cover;
     height:80%;
     width:80%;
     
   }
   .SeasonCardBx{
-    background-color: #290b5e;
+    background-color: #1d0841;
     filter: opacity(0.5);
     filter: brightness(1.2);
     margin: 15px;
@@ -47,6 +48,10 @@
     color: white;
     display: flex;
     flex-direction: column;
-    width:33%;
+    width:20%;
     cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    width:95%;
 }

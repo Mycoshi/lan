@@ -27,6 +27,7 @@ const Homepage = (props) => {
  return (
 
     <div className={styles.HomepageContainer}>
+      
       <div className={styles.HomepageGrid}>
        {filteredTitles.map((item, index) => (
           <Card

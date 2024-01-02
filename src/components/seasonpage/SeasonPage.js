@@ -49,7 +49,7 @@ const SeasonPage = (props) => {
       <p>{currentFileArray[0]}</p>
       </div>
 
-      <div className={styles.CardGrid}>
+      <div className={styles.SeasonGrid}>
       {seasons.map((season, index) => season && (
         <SeasonCard
         key={index}

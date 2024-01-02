@@ -1,17 +1,19 @@
 .PlayerPageContainer {
     width: 100%;
+    margin:5%;
 }
 .showContainer {
     width: 95%;
+    margin:5%;
 }
 .uiContainer {
     display: flex;
     flex-direction: row-reverse;
     grid-gap:10vw;
     justify-content: center;
+    padding:2%;
 }
 .cycleButtons{
-    padding:10px;
     color: white;
     background: rgb(255, 255, 000);
 }
@@ -32,7 +34,7 @@
   line-height: 1em;
   max-width: 100%;
   min-width: 140px;
-  padding: 3px;
+  padding: 25px;
   text-decoration: none;
   user-select: none;
   -webkit-user-select: none;
