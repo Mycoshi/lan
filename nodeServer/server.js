@@ -9,7 +9,7 @@ const port = 3001;
 app.use(cors()); // Enable CORS for all routes
 
 app.get('/api/mp4data', (req, res) => {
-  const filePath = "C:
+  const filePath = `C:/Users/jylau/Desktop/${req.query.filePath}`
 
   if (!filePath) {
     return res.status(400).send('File path not provided');

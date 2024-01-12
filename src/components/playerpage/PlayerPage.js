@@ -26,11 +26,13 @@ const PlayerPage = (props) => {
   }
 
 
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/api/mp4data', {
+        const response = await axios.get('http://localhost:3001/api/mp4data',{
+          params: {
+            filePath:fileObject.filePath,
+        },
           responseType: 'arraybuffer', // Specify responseType as 'arraybuffer' to handle binary data
         });
         // Assuming response.data is the file path received from the server
@@ -44,13 +46,12 @@ const PlayerPage = (props) => {
     fetchData();
   }, []);
 
-
-
+  console.log(fileObject)
 
 
   return (
       <div className={styles.showContainer}>
-        <button onClick = {() => (console.log(mp4Data))}>Data</button>
+        <button onClick = {() => (console.log(fileObject.filePath))}>Data</button>
         <video controls width="640" height="360">
         {mp4Data && (
           <source

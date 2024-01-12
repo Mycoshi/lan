@@ -202,6 +202,7 @@ useEffect(() => {
                   value={searchTerm}
                   onChange={handleSearch}
                   />
+                  
             </nav>
 
           {isCurrentPage === 1 && <Homepage

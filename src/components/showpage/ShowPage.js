@@ -35,8 +35,12 @@ const ShowPage = (props) => {
             setfilepath(movieData)
             indexSetter(index)
           }}>
-          <li className={styles.ShowItem} key={index}>
-            <img className={styles.img} src={(handleImageSetter(currentFileArray))} alt={'Image'} /> 
+          <li
+           className={styles.ShowItem}
+           key={index}>
+            <img className={styles.img} 
+            src={(handleImageSetter(currentFileArray))} 
+            alt={'Image'} /> 
             <p>Episode {movieData.fileName.replace(/\.mp4$/, '')}</p>
           </li>
           </div>
