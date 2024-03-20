@@ -1,4 +1,4 @@
-LAN - Local Area Netflix
+#LAN - Local Area Netflix
 
 A simple project to create a React html/js browser hosted video playerfor local files
 
