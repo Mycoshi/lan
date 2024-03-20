@@ -1,8 +1,8 @@
 # LAN - Local Area Netflix
 
-A simple project to create a React html/js browser hosted video playerfor local files
+## A html/js browser hosted video playerfor local files
 
-Takes a local file repository and sorts by folder tree, and displays cards with an image if found, additional subfolders if found a list of episodes, and then a video player
+### Takes a local file repository and sorts by folder tree, and displays cards with an image if found, additional subfolders if found a list of episodes, and then a video player
 
 ---------------------------------------------
 ISSUES -
